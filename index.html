@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>Soccer Tables</title>
+
+	<!-- Oxygen Font -->
+	<link href="https://fonts.googleapis.com/css?family=Oxygen:400,700" rel="stylesheet">
+	<!-- Source Sans Pro Font -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet">
+
+	<!-- font awesome cdn -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+	<!-- custom css -->
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<header>
+		<h1><i class="fa fa-futbol-o" aria-hidden="true"></i> Soccer Tables</h1>
+		<nav>
+			<li>
+				<select>
+					<option value='445' selected="selected">Premier League</option>
+					<option value='450'>Ligue 1</option>
+					<option value='455'>La Liga</option>
+					<option value='452'>Bundesliga</option>
+					<option value='456'>Series A</option>
+				</select>
+			</li>
+			<li>
+				<div class='checkBox'>
+					<input type="checkbox" name="tableStyle">
+					<span class='checkMark'>Alt View</span>
+				</div>
+			</li>
+		</nav>
+	</header>
+	<section class='main'>
+		<div class='head'>
+			<h2>League Name</h2>
+			<p>Matchday: <span class='matchdayCurrent'>#</span> / <span class='matchdayTotal'>#</span></p>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>
+						<div class='teamCrest'>
+							<i class="fa fa-futbol-o" aria-hidden="true"></i>
+						</div>
+						Team Name
+					</th>
+					<th>GP</th>
+					<th>W</th>
+					<th>D</th>
+					<th>L</th>
+					<th>GF</th>
+					<th>GA</th>
+					<th>GD</th>
+					<th>Pts</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>#</td>
+					<td>
+						<div class='teamCrest'>
+							<i class="fa fa-futbol-o" aria-hidden="true"></i>
+						</div> 
+						Loading...
+					</td>
+					<td>#</td>
+					<td>#</td>
+					<td>#</td>
+					<td>#</td>
+					<td>#</td>
+					<td>#</td>
+					<td>#</td>
+					<td>#</td>
+				</tr>
+			</tbody>
+		</table>
+		<p><small>Last updated: <span class='lastUpdated'>00/00/00 00:00 EST</span></small></p>
+	</section>
+	<footer>
+		<p>Made possible by <a href="http://api.football-data.org/index">Football-data.org</a></p>
+	</footer>
+	<!-- AXIOS CDN -->
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+	<!-- CUSTOM JS -->
+	<script src='app.js'></script>
+</body>
+</html>

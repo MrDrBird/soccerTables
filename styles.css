@@ -1,0 +1,152 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+a, a:link, a:visited{
+	color: inherit;
+}
+
+select:focus{
+	outline: none;
+}
+
+ul, li{
+	list-style: none;
+}
+
+body{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 100vh;
+	width: 100%;
+	background-color: #ededed;
+	color: #ededed;
+	font-family: Oxygen, sans-serif;
+}
+
+header, section{
+	padding: 100px 50px 50px 50px;
+}
+
+header{
+	background-color: blue;
+	background-image: 
+		radial-gradient(
+			hsla(0, 100%, 0%, 0.25),
+			hsla(0, 100%, 0%, 0.75)
+		);
+	background-size: 200% 300%;
+	background-position: center 25%;
+	box-shadow: 0 0 2px 2px #666;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: bottom;
+}
+
+header nav{
+	display: flex;
+	align-items: center;
+}
+
+header nav li{
+	margin: 0 10px;
+}
+
+header nav select{
+	padding: 2px 16px 4px 4px;
+	border-radius: 4px;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+section.main{
+	color:#000;
+}
+
+section.main div.head{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	padding: 0 20px; 
+	margin-bottom: 20px; 
+}
+
+section.main table{
+	width: 100%;
+	padding: 5px;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 18px;
+    box-shadow: 0 0 3px 1px #999;
+    border-radius: 8px;
+}
+
+section.main table th, 
+section.main table td {
+	padding: 8px 10px;
+	text-transform: uppercase;
+}
+
+section.main table td{
+	text-align: center;
+	text-transform: uppercase;
+}
+
+section.main table th:nth-child(2), 
+section.main table td:nth-child(2){
+	width: 99%;
+	text-align: left;
+}
+
+section.main p{
+	padding: 0 20px;
+	text-align: right;
+}
+
+section.main p small{
+	color: #999;
+	font-style: italic;
+}
+
+div.teamCrest{
+	display: inline-block;
+	height: 32px;
+	width: 32px;
+	margin-right: 8px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+div.teamCrest img {
+	vertical-align: middle;
+	height: auto;
+	max-height: 100%;
+	width: auto;
+	max-width: 100%;
+}
+
+div.teamCrest i{
+	font-size: 24px;
+	vertical-align: middle;
+}
+
+footer{
+	padding:15px 50px;
+	text-align: right;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 14px;
+
+	background-color: blue;
+	background-image: 
+		radial-gradient(
+			hsla(0, 100%, 0%, 0.25),
+			hsla(0, 100%, 0%, 0.75)
+		);
+	background-size: 200% 300%;
+	background-position: center 75%;
+	box-shadow: 0 0 2px 2px #666;
+}
