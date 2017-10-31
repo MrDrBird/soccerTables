@@ -1,4 +1,4 @@
-axios.defaults.baseURL 	= 'http://api.football-data.org/v1/competitions/';
+axios.defaults.baseURL 	= 'https://api.football-data.org/v1/competitions/';
 axios.defaults.headers.common['X-Auth-Token'] = '56adb608c168459ab3c345b23641cd99';
 
 
