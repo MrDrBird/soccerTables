@@ -20,74 +20,80 @@
 </head>
 <body>
 	<header>
-		<h1><i class="fa fa-futbol-o" aria-hidden="true"></i> Soccer Tables</h1>
-		<nav>
-			<li>
-				<select>
-					<option value='445' selected="selected">Premier League</option>
-					<option value='450'>Ligue 1</option>
-					<option value='455'>La Liga</option>
-					<option value='452'>Bundesliga</option>
-					<option value='456'>Series A</option>
-				</select>
-			</li>
-			<li>
-				<div class='checkBox'>
-					<input type="checkbox" name="tableStyle">
-					<span class='checkMark'>Alt View</span>
-				</div>
-			</li>
-		</nav>
+		<div class='container'>
+			<h1><i class="fa fa-futbol-o" aria-hidden="true"></i> Soccer Tables</h1>
+			<nav>
+				<li>
+					<select>
+						<option value='445' selected="selected">Premier League</option>
+						<option value='450'>Ligue 1</option>
+						<option value='455'>La Liga</option>
+						<option value='452'>Bundesliga</option>
+						<option value='456'>Series A</option>
+					</select>
+				</li>
+				<li>
+					<div class='checkBox'>
+						<input type="checkbox" name="tableStyle">
+						<span class='checkMark'>Alt View</span>
+					</div>
+				</li>
+			</nav>
+		</div>
 	</header>
 	<section class='main'>
-		<div class='head'>
-			<h2>League Name</h2>
-			<p>Matchday: <span class='matchdayCurrent'>#</span> / <span class='matchdayTotal'>#</span></p>
+		<div class='container'>
+			<div class='head'>
+				<h2>League Name</h2>
+				<p>Matchday: <span class='matchdayCurrent'>#</span> / <span class='matchdayTotal'>#</span></p>
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>
+							<div class='teamCrest'>
+								<i class="fa fa-futbol-o" aria-hidden="true"></i>
+							</div>
+							Team Name
+						</th>
+						<th>GP</th>
+						<th>W</th>
+						<th>D</th>
+						<th>L</th>
+						<th>GF</th>
+						<th>GA</th>
+						<th>GD</th>
+						<th>Pts</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>#</td>
+						<td>
+							<div class='teamCrest'>
+								<i class="fa fa-futbol-o" aria-hidden="true"></i>
+							</div> 
+							Loading...
+						</td>
+						<td>#</td>
+						<td>#</td>
+						<td>#</td>
+						<td>#</td>
+						<td>#</td>
+						<td>#</td>
+						<td>#</td>
+						<td>#</td>
+					</tr>
+				</tbody>
+			</table>
+			<p><small>Last updated: <span class='lastUpdated'>00/00/00 00:00 EST</span></small></p>
 		</div>
-		<table>
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>
-						<div class='teamCrest'>
-							<i class="fa fa-futbol-o" aria-hidden="true"></i>
-						</div>
-						Team Name
-					</th>
-					<th>GP</th>
-					<th>W</th>
-					<th>D</th>
-					<th>L</th>
-					<th>GF</th>
-					<th>GA</th>
-					<th>GD</th>
-					<th>Pts</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>#</td>
-					<td>
-						<div class='teamCrest'>
-							<i class="fa fa-futbol-o" aria-hidden="true"></i>
-						</div> 
-						Loading...
-					</td>
-					<td>#</td>
-					<td>#</td>
-					<td>#</td>
-					<td>#</td>
-					<td>#</td>
-					<td>#</td>
-					<td>#</td>
-					<td>#</td>
-				</tr>
-			</tbody>
-		</table>
-		<p><small>Last updated: <span class='lastUpdated'>00/00/00 00:00 EST</span></small></p>
 	</section>
 	<footer>
-		<p>Made possible by <a href="https://api.football-data.org/index">Football-data.org</a></p>
+		<div class='container'>
+			<p>Made possible by <a href="https://api.football-data.org/index">Football-data.org</a></p>
+		</div>
 	</footer>
 	<!-- AXIOS CDN -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
