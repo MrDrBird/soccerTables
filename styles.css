@@ -8,12 +8,12 @@ a, a:link, a:visited{
 	color: inherit;
 }
 
-select:focus{
-	outline: none;
-}
-
 ul, li{
 	list-style: none;
+}
+
+html{
+	min-width: 640px;
 }
 
 body{
@@ -27,9 +27,14 @@ body{
 	font-family: Oxygen, sans-serif;
 }
 
-header, section{
-	padding: 100px 50px 50px 50px;
+.container{
+	width: 100%;
+	max-width: 1240px;
+	margin: 0 auto;
+	padding: 50px;
 }
+
+/* -- HEADER STYLES -- */
 
 header{
 	background-color: blue;
@@ -41,22 +46,25 @@ header{
 	background-size: 200% 300%;
 	background-position: center 25%;
 	box-shadow: 0 0 2px 2px #666;
+}
 
+header .container{
+	padding-top: 100px;
 	display: flex;
 	justify-content: space-between;
 	align-items: bottom;
 }
 
-header nav{
+nav{
 	display: flex;
 	align-items: center;
 }
 
-header nav li{
+nav li{
 	margin: 0 10px;
 }
 
-header nav select{
+select{
 	padding: 2px 16px 4px 4px;
 	border-radius: 4px;
 	font-family: 'Source Sans Pro', sans-serif;
@@ -64,78 +72,83 @@ header nav select{
 	font-weight: 700;
 }
 
-section.main{
+select:focus{
+	outline: none;
+}
+
+
+/*  --  MAIN SECTION STYLES  --  */
+
+.main{
+	flex-grow: 1;
 	color:#000;
 }
 
-section.main div.head{
+.main .head{
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
-	padding: 0 20px; 
-	margin-bottom: 20px; 
+	padding: 0 20px 20px 20px;
 }
 
-section.main table{
+table{
 	width: 100%;
-	padding: 5px;
 	font-family: 'Source Sans Pro', sans-serif;
 	font-size: 18px;
     box-shadow: 0 0 3px 1px #999;
-    border-radius: 8px;
+    border-collapse: collapse;
 }
 
-section.main table th, 
-section.main table td {
-	padding: 8px 10px;
-	text-transform: uppercase;
+tbody tr:nth-child(odd){
+	background-color: rgba(0,0,255,0.1);
 }
 
-section.main table td{
+th, td {
+	padding: 2px 10px;
 	text-align: center;
 	text-transform: uppercase;
+	vertical-align: middle;
 }
-
-section.main table th:nth-child(2), 
-section.main table td:nth-child(2){
+thead th{
+	padding: 10px;
+}
+th:nth-child(2), 
+td:nth-child(2){
 	width: 99%;
 	text-align: left;
 }
 
-section.main p{
-	padding: 0 20px;
-	text-align: right;
-}
-
-section.main p small{
-	color: #999;
-	font-style: italic;
-}
-
-div.teamCrest{
+.teamCrest{
 	display: inline-block;
-	height: 32px;
-	width: 32px;
+	height: 24px;
+	width: 24px;
 	margin-right: 8px;
 	text-align: center;
 	vertical-align: middle;
 }
 
-div.teamCrest img {
-	vertical-align: middle;
+.teamCrest img {
 	height: auto;
 	max-height: 100%;
 	width: auto;
 	max-width: 100%;
 }
 
-div.teamCrest i{
-	font-size: 24px;
-	vertical-align: middle;
+teamCrest i{
+	font-size: 20px;
+}
+
+.main .container>p{
+	padding: 0 10px;
+	text-align: right;
+}
+
+.main p small{
+	color: #999;
+	font-style: italic;
 }
 
 footer{
-	padding:15px 50px;
 	text-align: right;
 	font-family: 'Source Sans Pro', sans-serif;
 	font-size: 14px;
@@ -149,4 +162,34 @@ footer{
 	background-size: 200% 300%;
 	background-position: center 75%;
 	box-shadow: 0 0 2px 2px #666;
+}
+
+footer .container{
+	padding:15px 50px;	
+}
+
+@media(max-width: 960px){
+	.container{
+		padding: 25px;
+	}
+	header .container{
+		padding-top:50px;
+	}
+}
+
+@media(max-width: 800px){
+	.main .container{
+		padding: 25px 0;
+	}
+
+	table{
+		font-size: 16px;
+	}
+
+	th, td {
+		padding: 2px 8px;
+	}
+	thead th{
+		padding: 8px;
+	}
 }
