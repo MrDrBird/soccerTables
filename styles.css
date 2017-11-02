@@ -46,29 +46,28 @@ header{
 	background-size: 200% 300%;
 	background-position: center 25%;
 	box-shadow: 0 0 2px 2px #666;
+	padding-top: 25px;
 }
 
-header .container{
-	padding-top: 75px;
-	display: flex;
-	justify-content: space-between;
-	align-items: bottom;
-}
+/*  --  NAV STYLES  --  */
 
 nav{
-	display: flex;
-	align-items: center;
+	box-shadow: 0px 2px 3px -1px #999;
 }
 
-nav li{
-	margin: 0 10px;
+nav .container{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: #000;
+	padding-bottom: 25px;
 }
 
 select{
-	padding: 2px 16px 4px 4px;
+	padding: 4px 24px 4px 4px;
 	border-radius: 4px;
 	font-family: 'Source Sans Pro', sans-serif;
-	font-size: 16px;
+	font-size: 24px;
 	font-weight: 700;
 }
 
@@ -76,6 +75,15 @@ select:focus{
 	outline: none;
 }
 
+input[type='checkbox']{
+	vertical-align: middle;
+	width: 30px;
+	height: 30px;
+}
+
+nav span{
+	font-weight: 700;
+}
 
 /*  --  MAIN SECTION STYLES  --  */
 
@@ -84,12 +92,8 @@ main{
 	color:#000;
 }
 
-main .head{
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-end;
-	padding: 0 20px 20px 20px;
-	box-shadow: 0px 2px 3px -1px #999;
+main .container{
+	padding-top: 25px;
 }
 
 table{
@@ -97,7 +101,6 @@ table{
 	font-family: 'Source Sans Pro', sans-serif;
 	font-size: 18px;
     border-collapse: collapse;
-    box-shadow: 0px 2px 3px -1px #999;
 }
 
 thead th{
@@ -107,7 +110,6 @@ thead th{
 tr{
 	transition: 1s;
 }
-
 
 tbody tr:nth-child(odd){
 	background-color: rgba(0,0,255,0.15); 
@@ -145,12 +147,13 @@ td:nth-child(3){
 	vertical-align: middle;
 }
 
-main .container>p{
+section{
 	padding: 0 10px;
-	text-align: right;
+	display: flex;
+	justify-content: space-between;
 }
 
-main p small{
+main small{
 	color: #999;
 	font-style: italic;
 }
@@ -175,14 +178,18 @@ footer .container{
 	padding:15px 50px;	
 }
 
-@media(max-width: 960px){
+@media(max-width: 960px){	
+
 	.container{
 		padding: 25px;
 	}
-	header .container{
-		padding-top:50px;
-	}
+	
 	main .container{
 		padding: 25px 0;
+	}
+
+	nav select{
+		flex-grow: 1;
+		margin-right: 20px;
 	}
 }

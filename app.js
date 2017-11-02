@@ -1,6 +1,9 @@
+// SET AXIOS DEFAULTS
+
 axios.defaults.baseURL 	= 'https://api.football-data.org/v1/competitions/';
 axios.defaults.headers.common['X-Auth-Token'] = '56adb608c168459ab3c345b23641cd99';
 
+// GET PAGE ELEMENTS
 
 let leagueNameDisp 		  = document.querySelector('h2');
 let leagueList 	   		  = document.querySelector('select');
@@ -10,24 +13,31 @@ let matchdayTotalDisp     = document.querySelector('.matchdayTotal');
 let tableBodyDisp 		  = document.querySelector('tBody');
 let lastUpdatedDisp       = document.querySelector('.lastUpdated');
 
+// TODO
+// FIND BETTER WAY TO DECLARE FONT AWESOME ICON IN JS
+let icon = '<i class="fa fa-futbol-o" aria-hidden="true"></i>'; // soccer ball font-aweseome icon
+
+// SET EVENT LISTNERS
 leagueList.addEventListener("change", setLeague);
 tableViewBox.addEventListener("change", (val) => {
 	tableViewBox.checked ? setAltTableView() : resetTableView();
 });
 
-function clearTableBody(){
-	while( tableBodyDisp.children.length > 0){
-		tableBodyDisp.deleteRow(0);	
+// DECLARE FUNCTIONS
+
+function clearTableBody(){ // remove all table body children 
+	while( tableBodyDisp.children.length > 0){ 
+		tableBodyDisp.deleteRow(0);
 	}
 }
 
-function createTableRow(data, index){
+function createTableRow(data, index){ 
 	
-	let newRow = document.createElement('tr');
-	let icon = '<i class="fa fa-futbol-o" aria-hidden="true"></i>';
-	let crestContainer = document.createElement('div');
+	let newRow = document.createElement('tr'); // create new row
+
+	let crestContainer = document.createElement('div'); // create crest div with place holder icon
 	crestContainer.setAttribute('class', 'teamCrest');
- 	crestContainer.innerHTML = icon;
+	crestContainer.innerHTML = icon;
 
  	let cells = [ // data for each cell
 	 	data.position,
@@ -47,10 +57,11 @@ function createTableRow(data, index){
 		createTableCell(v, newRow);
 	}
 
-	setTeamCrest(data.crestURI, newRow);
-	newRow.style.opacity = 0;
+	setTeamCrest(data.crestURI, newRow); // REPLACE PLACEHOLDER IF CREST EXIST
+
+	newRow.style.opacity = 0; // FADE IN TABLE ROW
 	tableBodyDisp.append(newRow);
-	setTimeout(function(){newRow.style.opacity=1;}, index*50);
+	setTimeout(() => {newRow.style.opacity=1;}, index*50);
 }
 
 function createTableCell(cellContent, tableRow){
@@ -75,7 +86,7 @@ function setLeague(){
 	let leagueName 	   = leagueSelected.innerHTML; 
 	let leagueId 	   = leagueSelected.value;
 
-	leagueNameDisp.innerHTML = leagueName; // set display name to inner text
+	//leagueNameDisp.innerHTML = leagueName; // set display name to inner text
 	clearTableBody();
 
 	let newRow = tableBodyDisp.insertRow(0); // create new table row at team postion
