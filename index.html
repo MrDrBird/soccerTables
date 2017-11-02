@@ -32,16 +32,14 @@
 						<option value='456'>Series A</option>
 					</select>
 				</li>
-				<li>
-					<div class='checkBox'>
-						<input type="checkbox" name="tableStyle">
-						<span class='checkMark'>Alt View</span>
-					</div>
+				<li>					
+					<input type="checkbox" name="tableStyle">
+					Alt View
 				</li>
 			</nav>
 		</div>
 	</header>
-	<section class='main'>
+	<main>
 		<div class='container'>
 			<div class='head'>
 				<h2>League Name</h2>
@@ -55,8 +53,8 @@
 							<div class='teamCrest'>
 								<i class="fa fa-futbol-o" aria-hidden="true"></i>
 							</div>
-							Team Name
 						</th>
+						<th>Team Name</th>
 						<th>GP</th>
 						<th>W</th>
 						<th>D</th>
@@ -73,9 +71,9 @@
 						<td>
 							<div class='teamCrest'>
 								<i class="fa fa-futbol-o" aria-hidden="true"></i>
-							</div> 
-							Loading...
+							</div>
 						</td>
+						<td>Loading...</td>
 						<td>#</td>
 						<td>#</td>
 						<td>#</td>
@@ -87,12 +85,12 @@
 					</tr>
 				</tbody>
 			</table>
-			<p><small>Last updated: <span class='lastUpdated'>00/00/00 00:00 EST</span></small></p>
+			<p><small>Last updated: <time class='lastUpdated'>00/00/00 00:00 GMT</time></small></p>
 		</div>
-	</section>
+	</main>
 	<footer>
 		<div class='container'>
-			<p>Made possible by <a href="https://api.football-data.org/index">Football-data.org</a></p>
+			<p>Made possible with <a href="https://api.football-data.org/index">Football-data.org</a></p>
 		</div>
 	</footer>
 	<!-- AXIOS CDN -->

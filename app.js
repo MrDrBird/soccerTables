@@ -11,7 +11,9 @@ let tableBodyDisp 		  = document.querySelector('tBody');
 let lastUpdatedDisp       = document.querySelector('.lastUpdated');
 
 leagueList.addEventListener("change", setLeague);
-tableViewBox.addEventListener("change", () => alert('This doesn\'t do anything yet!'))
+tableViewBox.addEventListener("change", (val) => {
+	tableViewBox.checked ? setAltTableView() : resetTableView();
+});
 
 function clearTableBody(){
 	while( tableBodyDisp.children.length > 0){
@@ -21,10 +23,15 @@ function clearTableBody(){
 
 function createTableRow(data, index){
 	
-	let newRow = tableBodyDisp.insertRow(index); // create new table row at team postion
- 	
+	let newRow = document.createElement('tr');
+	let icon = '<i class="fa fa-futbol-o" aria-hidden="true"></i>';
+	let crestContainer = document.createElement('div');
+	crestContainer.setAttribute('class', 'teamCrest');
+ 	crestContainer.innerHTML = icon;
+
  	let cells = [ // data for each cell
 	 	data.position,
+	 	crestContainer,
 	 	data.teamName,
 		data.playedGames,
 		data.wins,
@@ -40,28 +47,26 @@ function createTableRow(data, index){
 		createTableCell(v, newRow);
 	}
 
-	setTeamCrest(data.crestURI, newRow);	
+	setTeamCrest(data.crestURI, newRow);
+	newRow.style.opacity = 0;
+	tableBodyDisp.append(newRow);
+	setTimeout(function(){newRow.style.opacity=1;}, index*50);
 }
 
 function createTableCell(cellContent, tableRow){
 	let newCell = tableRow.insertCell();
-	newCell.textContent = cellContent;
+	typeof cellContent === Object ? newCell.textContent = cellContent : newCell.append(cellContent);	
 }
 
 function setTeamCrest(img, row){
-	let teamCell = row.children[1];
-	
-	let crestContainer = document.createElement('div');
-	crestContainer.setAttribute('class', 'teamCrest');
-	teamCell.prepend(crestContainer);
 
 	if(img){
-		let teamCrest = document.createElement('img');
+
+		let div = row.children[1].children[0];
+	 	let teamCrest = document.createElement('img');
 		teamCrest.src = img;
-		crestContainer.append(teamCrest);
-	}else{
-		let icon ='<i class="fa fa-futbol-o" aria-hidden="true"></i>';
-		crestContainer.innerHTML = icon;
+		div.innerHTML = '';
+		div.append(teamCrest);
 	}
 }
 
@@ -74,7 +79,7 @@ function setLeague(){
 	clearTableBody();
 
 	let newRow = tableBodyDisp.insertRow(0); // create new table row at team postion
- 	let cells = ['#','Loading...','#','#','#','#','#','#','#','#'];
+ 	let cells = ['#', '#', 'Loading...','#','#','#','#','#','#','#','#'];
 	for(v of cells){ // create table cell for all data
 		createTableCell(v, newRow);
 	}
@@ -102,7 +107,8 @@ function getLeagueData(lgID){
 		lastUpdatedDisp.textContent = orgDate(basic.lastUpdated);
 		
 		let standing = tableJSON.data.standing;
-		standing.forEach(createTableRow);		
+		standing.forEach(createTableRow);
+		tableViewBox.checked?setAltTableView():false;	
 	})
 	.catch((err) => console.log(err));
 }
@@ -118,9 +124,44 @@ function orgDate(ugly){
 	// make HH:MM GMT time string
 	timeStr = timeStr.split(/[:]/);
 	timeStr.pop();
-	timeStr = timeStr.join(':') + ' EST';
+	timeStr = timeStr.join(':') + ' GMT';
 
 	return dateStr + ' ' + timeStr;
+}
+
+function setAltTableView(){
+
+	let teamRows = tableBodyDisp.children;
+	let lastPoints = 0;
+
+	for(let i=0; i<teamRows.length-1; i++){
+		let team 		= teamRows[i].children;
+		let rival 		= teamRows[i+1].children;
+		let teamPoints  = parseInt(team[team.length -1].innerHTML);
+		let rivalPoints = parseInt(rival[rival.length -1].innerHTML);
+		let dif 		= teamPoints-rivalPoints;
+
+		setRowPadding(teamRows[i], dif);
+		if(dif===0){
+			i++;
+			tableBodyDisp.insertRow(i);
+
+		}
+	}
+}
+
+function resetTableView(){
+	let teamRows = tableBodyDisp.children;
+	for(let i=0; i<teamRows.length-1; i++){
+		teamRows[i].children.length === 0 ? teamRows[i].remove() : false;
+		setRowPadding(teamRows[i], 0);	
+	}
+}
+
+function setRowPadding(row, pnts){
+	for(let i=0; i<row.children.length; i++){
+		row.children[i].style.paddingBottom = `${pnts*33}px`;	
+	}
 }
 
 setLeague();
