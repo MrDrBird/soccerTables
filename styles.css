@@ -49,7 +49,7 @@ header{
 }
 
 header .container{
-	padding-top: 100px;
+	padding-top: 75px;
 	display: flex;
 	justify-content: space-between;
 	align-items: bottom;
@@ -79,71 +79,78 @@ select:focus{
 
 /*  --  MAIN SECTION STYLES  --  */
 
-.main{
+main{
 	flex-grow: 1;
 	color:#000;
 }
 
-.main .head{
+main .head{
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
 	padding: 0 20px 20px 20px;
+	box-shadow: 0px 2px 3px -1px #999;
 }
 
 table{
 	width: 100%;
 	font-family: 'Source Sans Pro', sans-serif;
 	font-size: 18px;
-    box-shadow: 0 0 3px 1px #999;
     border-collapse: collapse;
+    box-shadow: 0px 2px 3px -1px #999;
 }
 
+thead th{
+	padding: 10px;
+}
+
+tr{
+	transition: 1s;
+}
+
+
 tbody tr:nth-child(odd){
-	background-color: rgba(0,0,255,0.1);
+	background-color: rgba(0,0,255,0.15); 
 }
 
 th, td {
 	padding: 2px 10px;
 	text-align: center;
-	text-transform: uppercase;
 	vertical-align: middle;
+	text-transform: uppercase;
+	transition: 1s;
 }
-thead th{
-	padding: 10px;
-}
-th:nth-child(2), 
-td:nth-child(2){
+
+th:nth-child(3), 
+td:nth-child(3){
 	width: 99%;
 	text-align: left;
 }
 
 .teamCrest{
-	display: inline-block;
-	height: 24px;
+	height: 28px;
 	width: 24px;
-	margin-right: 8px;
-	text-align: center;
-	vertical-align: middle;
 }
 
 .teamCrest img {
+	width: auto;
 	height: auto;
 	max-height: 100%;
-	width: auto;
 	max-width: 100%;
+	vertical-align: middle;
 }
 
-teamCrest i{
+.teamCrest i{
 	font-size: 20px;
+	vertical-align: middle;
 }
 
-.main .container>p{
+main .container>p{
 	padding: 0 10px;
 	text-align: right;
 }
 
-.main p small{
+main p small{
 	color: #999;
 	font-style: italic;
 }
@@ -175,21 +182,7 @@ footer .container{
 	header .container{
 		padding-top:50px;
 	}
-}
-
-@media(max-width: 800px){
-	.main .container{
+	main .container{
 		padding: 25px 0;
-	}
-
-	table{
-		font-size: 16px;
-	}
-
-	th, td {
-		padding: 2px 8px;
-	}
-	thead th{
-		padding: 8px;
 	}
 }
