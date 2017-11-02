@@ -22,29 +22,25 @@
 	<header>
 		<div class='container'>
 			<h1><i class="fa fa-futbol-o" aria-hidden="true"></i> Soccer Tables</h1>
-			<nav>
-				<li>
-					<select>
-						<option value='445' selected="selected">Premier League</option>
-						<option value='450'>Ligue 1</option>
-						<option value='455'>La Liga</option>
-						<option value='452'>Bundesliga</option>
-						<option value='456'>Series A</option>
-					</select>
-				</li>
-				<li>					
-					<input type="checkbox" name="tableStyle">
-					Alt View
-				</li>
-			</nav>
 		</div>
 	</header>
+	<nav>
+		<div class='container'>
+			<select>
+				<option value='445' selected="selected">Premier League</option>
+				<option value='450'>Ligue 1</option>
+				<option value='455'>La Liga</option>
+				<option value='452'>Bundesliga</option>
+				<option value='456'>Series A</option>
+			</select>
+			<span class='extBox'>
+				<input type="checkbox" name="tableStyle">
+				Ext View
+			</span>
+		</div>
+	</nav>
 	<main>
 		<div class='container'>
-			<div class='head'>
-				<h2>League Name</h2>
-				<p>Matchday: <span class='matchdayCurrent'>#</span> / <span class='matchdayTotal'>#</span></p>
-			</div>
 			<table>
 				<thead>
 					<tr>
@@ -85,7 +81,12 @@
 					</tr>
 				</tbody>
 			</table>
-			<p><small>Last updated: <time class='lastUpdated'>00/00/00 00:00 GMT</time></small></p>
+			<section>
+				<small>Last updated: <time class='lastUpdated'>00/00/00 00:00 GMT</time></small>
+
+				<small>Matchday: <span class='matchdayCurrent'>#</span> / <span class='matchdayTotal'>#</span></small>
+			</section>
+			
 		</div>
 	</main>
 	<footer>
