@@ -1,3 +1,7 @@
+@-ms-viewport{
+  width: device-width;
+}
+
 *{
 	margin: 0;
 	padding: 0;
@@ -13,7 +17,7 @@ ul, li{
 }
 
 html{
-	min-width: 640px;
+	min-width: 400px;
 }
 
 body{
@@ -24,7 +28,7 @@ body{
 	width: 100%;
 	background-color: #ededed;
 	color: #ededed;
-	font-family: Oxygen, sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
 }
 
 .container{
@@ -63,12 +67,28 @@ nav .container{
 	padding-bottom: 25px;
 }
 
+nav .container>*{
+	display: flex;
+	
+	align-items: center;
+}
+
+form{
+	flex-grow: 1;
+	padding-right: 16px;
+}
+
+label{
+	padding-right: 8px;
+}
+
 select{
-	padding: 4px 24px 4px 4px;
+	padding: 4px 36px 4px 4px;
 	border-radius: 4px;
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Lato', sans-serif;
 	font-size: 24px;
 	font-weight: 700;
+	flex-grow: 1;
 }
 
 select:focus{
@@ -77,12 +97,8 @@ select:focus{
 
 input[type='checkbox']{
 	vertical-align: middle;
-	width: 30px;
-	height: 30px;
-}
-
-nav span{
-	font-weight: 700;
+	width: 20px;
+	height: 20px;
 }
 
 /*  --  MAIN SECTION STYLES  --  */
@@ -98,35 +114,50 @@ main .container{
 
 table{
 	width: 100%;
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Lato', sans-serif;
 	font-size: 18px;
     border-collapse: collapse;
+	box-shadow: 0px 2px 3px -1px #999;
 }
 
 thead th{
 	padding: 10px;
 }
 
-tr{
-	transition: 1s;
+tr, th, td{
+	-webkit-transition: 1s;
+       -moz-transition: 1s;
+        -ms-transition: 1s;
+         -o-transition: 1s;
+            transition: 1s;
 }
 
 tbody tr:nth-child(odd){
 	background-color: rgba(0,0,255,0.15); 
 }
 
-th, td {
+th, td{
 	padding: 2px 10px;
 	text-align: center;
 	vertical-align: middle;
 	text-transform: uppercase;
-	transition: 1s;
 }
 
+col.detail{
+	background-color: #911;
+	width: 0px;
+}
+
+
+/*NAME CELL*/
 th:nth-child(3), 
 td:nth-child(3){
 	width: 99%;
+	max-width: 33vw;
 	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .teamCrest{
@@ -153,14 +184,16 @@ section{
 	justify-content: space-between;
 }
 
-main small{
+section small{
 	color: #999;
 	font-style: italic;
 }
 
+/* FOOTER STYLES */
+
 footer{
 	text-align: right;
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Lato', sans-serif;
 	font-size: 14px;
 
 	background-color: blue;
@@ -178,6 +211,8 @@ footer .container{
 	padding:15px 50px;	
 }
 
+/*RESPONSIVE STYLES*/
+
 @media(max-width: 960px){	
 
 	.container{
@@ -188,8 +223,32 @@ footer .container{
 		padding: 25px 0;
 	}
 
-	nav select{
-		flex-grow: 1;
-		margin-right: 20px;
+	form{
+		padding: 0;
 	}
+
+	nav .container{
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	nav .container>*:not(:last-child){
+		margin-bottom: 10px;
+	}
+
 }
+
+@media(max-width: 800px){	
+
+	th, td{
+		padding: 2px 6px;
+	}
+
+	/*DETAIL CELL*/
+	th:nth-child(1), th:nth-child(4), th:nth-child(8), th:nth-child(9),
+	td:nth-child(1), td:nth-child(4), td:nth-child(8), td:nth-child(9){
+		display: none;
+	}
+
+}
+

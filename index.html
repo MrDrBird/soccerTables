@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<title>Soccer Tables</title>
 
-	<!-- Oxygen Font -->
-	<link href="https://fonts.googleapis.com/css?family=Oxygen:400,700" rel="stylesheet">
 	<!-- Source Sans Pro Font -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet">
+
+	<!-- LATO FONT -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 
 	<!-- font awesome cdn -->
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -26,17 +26,27 @@
 	</header>
 	<nav>
 		<div class='container'>
-			<select>
-				<option value='445' selected="selected">Premier League</option>
-				<option value='450'>Ligue 1</option>
-				<option value='455'>La Liga</option>
-				<option value='452'>Bundesliga</option>
-				<option value='456'>Series A</option>
-			</select>
-			<span class='extBox'>
-				<input type="checkbox" name="tableStyle">
-				Ext View
-			</span>
+			<form>
+				<label for="leagueSelect"><h2>League:</h2></label>
+				<select id='leagueSelect'>
+					<option value='445' selected="selected">Premier League</option>
+					<option value='450'>Ligue 1</option>
+					<option value='455'>La Liga</option>
+					<option value='452'>Bundesliga</option>
+					<option value='456'>Series A</option>
+				</select>
+			</form>
+			<form>	
+				<label for="tableSelect"><h2>View:</h2></label>
+				<select id='tableSelect'>
+					<option value='tra' selected="selected">Traditional</option>
+					<option value='ext'>Extended</option>
+				</select>
+			</form>
+			<!-- <div class='checkboxes'>
+				<label><h3>Show Details</h3></label>
+				<input id='tableDetails' type="checkbox" name="tableDetails">	
+			</div> -->
 		</div>
 	</nav>
 	<main>

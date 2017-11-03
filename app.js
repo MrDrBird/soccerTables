@@ -1,13 +1,17 @@
 // SET AXIOS DEFAULTS
-
 axios.defaults.baseURL 	= 'https://api.football-data.org/v1/competitions/';
 axios.defaults.headers.common['X-Auth-Token'] = '56adb608c168459ab3c345b23641cd99';
 
 // GET PAGE ELEMENTS
+let header  			  = document.querySelector('header');
+let footer  			  = document.querySelector('footer');
+let leagueSelect   		  = document.querySelector('#leagueSelect');
+let tableSelect   		  = document.querySelector('#tableSelect');
 
-let leagueNameDisp 		  = document.querySelector('h2');
-let leagueList 	   		  = document.querySelector('select');
-let tableViewBox   		  = document.querySelector('input[type="checkbox"]');
+
+// let tableDetails   		  = document.querySelector('#tableDetails');
+
+
 let matchdayCurrentDisp   = document.querySelector('.matchdayCurrent');
 let matchdayTotalDisp     = document.querySelector('.matchdayTotal');
 let tableBodyDisp 		  = document.querySelector('tBody');
@@ -18,10 +22,10 @@ let lastUpdatedDisp       = document.querySelector('.lastUpdated');
 let icon = '<i class="fa fa-futbol-o" aria-hidden="true"></i>'; // soccer ball font-aweseome icon
 
 // SET EVENT LISTNERS
-leagueList.addEventListener("change", setLeague);
-tableViewBox.addEventListener("change", (val) => {
-	tableViewBox.checked ? setAltTableView() : resetTableView();
-});
+leagueSelect.addEventListener("change", setLeague); // show selected league
+tableSelect.addEventListener("change", setTableType); // set padding/background color based on team points for table view
+
+// console.log(tableDetails.value)
 
 // DECLARE FUNCTIONS
 
@@ -31,15 +35,15 @@ function clearTableBody(){ // remove all table body children
 	}
 }
 
-function createTableRow(data, index){ 
-	
+function createTableRow(data, index){ // add row of data to table
+
 	let newRow = document.createElement('tr'); // create new row
 
-	let crestContainer = document.createElement('div'); // create crest div with place holder icon
+	let crestContainer = document.createElement('div'); // create div for team crest cell
 	crestContainer.setAttribute('class', 'teamCrest');
-	crestContainer.innerHTML = icon;
+	crestContainer.innerHTML = icon; // add placeholder icon
 
- 	let cells = [ // data for each cell
+ 	let cells = [ // cell data for row
 	 	data.position,
 	 	crestContainer,
 	 	data.teamName,
@@ -53,15 +57,17 @@ function createTableRow(data, index){
 		data.points
 	];
 
-	for(v of cells){ // create table cell for all data
-		createTableCell(v, newRow);
+	for(cell of cells){ // create table cell for each piece of cell data
+		let newCell = newRow.insertCell(); // make new cell
+		typeof cell === Object ? newCell.textContent = cell : newCell.append(cell); // set text or append object to cell
 	}
 
 	setTeamCrest(data.crestURI, newRow); // REPLACE PLACEHOLDER IF CREST EXIST
-
-	newRow.style.opacity = 0; // FADE IN TABLE ROW
-	tableBodyDisp.append(newRow);
-	setTimeout(() => {newRow.style.opacity=1;}, index*50);
+	
+	// FADE IN TABLE ROW
+	newRow.style.opacity = 0; // set opacity to 0
+	tableBodyDisp.append(newRow); // add row to table
+	setTimeout(() => {newRow.style.opacity=1;}, index*50); // set opacity to 1 after delay
 }
 
 function createTableCell(cellContent, tableRow){
@@ -70,9 +76,7 @@ function createTableCell(cellContent, tableRow){
 }
 
 function setTeamCrest(img, row){
-
 	if(img){
-
 		let div = row.children[1].children[0];
 	 	let teamCrest = document.createElement('img');
 		teamCrest.src = img;
@@ -82,21 +86,24 @@ function setTeamCrest(img, row){
 }
 
 function setLeague(){
-	let leagueSelected = leagueList.options[leagueList.selectedIndex]; // selected element from dropdown menu
-	let leagueName 	   = leagueSelected.innerHTML; 
-	let leagueId 	   = leagueSelected.value;
+	let leagueId = leagueSelect.options[leagueSelect.selectedIndex].value; // selected element from dropdown menu
+	setLoadingTable();
+	getLeagueData(leagueId);
+	randomColor();
+}
 
-	//leagueNameDisp.innerHTML = leagueName; // set display name to inner text
+function setTableType(){
+	let tableType = tableSelect.options[tableSelect.selectedIndex].value; // selected element from dropdown menu
+	tableType === 'ext' ? setAltTableView() : setRegularTableView();
+}
+
+function setLoadingTable(){
 	clearTableBody();
-
 	let newRow = tableBodyDisp.insertRow(0); // create new table row at team postion
  	let cells = ['#', '#', 'Loading...','#','#','#','#','#','#','#','#'];
 	for(v of cells){ // create table cell for all data
 		createTableCell(v, newRow);
 	}
-	setTeamCrest(false, newRow);
-
-	getLeagueData(leagueId);
 }
 
 function getLeagueData(lgID){
@@ -110,22 +117,22 @@ function getLeagueData(lgID){
 		let basicJSON = res[0];
 		let tableJSON = res[1];
 
-		clearTableBody();
-
-		let basic = basicJSON.data;		
-		matchdayCurrentDisp.textContent = basic.currentMatchday;
-		matchdayTotalDisp.textContent = basic.numberOfMatchdays;
-		lastUpdatedDisp.textContent = orgDate(basic.lastUpdated);
+		let basic = basicJSON.data;	// basic data from api	
+		matchdayCurrentDisp.textContent = basic.currentMatchday; // Set current matchday display
+		matchdayTotalDisp.textContent   = basic.numberOfMatchdays; // Set total matchday display
+		lastUpdatedDisp.textContent 	= orgDate(basic.lastUpdated); // set updated date
 		
-		let standing = tableJSON.data.standing;
-		standing.forEach(createTableRow);
-		tableViewBox.checked?setAltTableView():false;	
+		let standing = tableJSON.data.standing; // table data from api
+		clearTableBody(); 
+		standing.forEach(createTableRow); // create table row from all teams in standings
+
+		tableSelect.value === 'ext' ? setTimeout(setAltTableView, standing.length*50) : false;	// set alt table view after delay
 	})
 	.catch((err) => console.log(err));
 }
 
 function orgDate(ugly){
-	let [dateStr, timeStr] = ugly.split(/[TZ]/);
+	let [dateStr, timeStr] = ugly.split(/[TZ]/); // input data looks like 'yyyy-mm-ddT00:00:00Z'
 
 	// make MM/DD/YYYY date string
 	dateStr = dateStr.split(/[-]/);
@@ -134,38 +141,35 @@ function orgDate(ugly){
 
 	// make HH:MM GMT time string
 	timeStr = timeStr.split(/[:]/);
-	timeStr.pop();
-	timeStr = timeStr.join(':') + ' GMT';
+	timeStr = timeStr.slice(0,2).join(':') + ' GMT';
 
-	return dateStr + ' ' + timeStr;
+	return `${dateStr} ${timeStr}`;
 }
 
 function setAltTableView(){
-
-	let teamRows = tableBodyDisp.children;
-	let lastPoints = 0;
+	let teamRows = tableBodyDisp.children; // get all rows in table
 
 	for(let i=0; i<teamRows.length-1; i++){
-		let team 		= teamRows[i].children;
-		let rival 		= teamRows[i+1].children;
+		let team 		= teamRows[i].children; // team point val
+		let rival 		= teamRows[i+1].children; // next row point val
 		let teamPoints  = parseInt(team[team.length -1].innerHTML);
 		let rivalPoints = parseInt(rival[rival.length -1].innerHTML);
-		let dif 		= teamPoints-rivalPoints;
+		let dif 		= teamPoints-rivalPoints; //deduce point differnce between teams
 
-		setRowPadding(teamRows[i], dif);
-		if(dif===0){
-			i++;
-			tableBodyDisp.insertRow(i);
-
+		setRowPadding(teamRows[i], dif); // set padding based on point difference
+		
+		if(dif===0){ // if no point difference
+			i++; // account for growing table
+			tableBodyDisp.insertRow(i); // insert empty row to correct background color change
 		}
 	}
 }
 
-function resetTableView(){
-	let teamRows = tableBodyDisp.children;
+function setRegularTableView(){
+	let teamRows = tableBodyDisp.children; // get all rows in table
 	for(let i=0; i<teamRows.length-1; i++){
-		teamRows[i].children.length === 0 ? teamRows[i].remove() : false;
-		setRowPadding(teamRows[i], 0);	
+		teamRows[i].children.length === 0 ? teamRows[i].remove() : false; // remove empty rows
+		setRowPadding(teamRows[i], 0);	// reset padding to 0
 	}
 }
 
@@ -175,4 +179,11 @@ function setRowPadding(row, pnts){
 	}
 }
 
+function randomColor(){
+	let r = [Math.floor(Math.random()*255), Math.floor(Math.random()*255), Math.floor(Math.random()*255)];
+	let color = `rgb(${r.join(',')})`
+	header.style.backgroundColor = color;
+	footer.style.backgroundColor = color;
+}
 setLeague();
+randomColor();
