@@ -6,6 +6,11 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+		-webkit-transition: 1s;
+       -moz-transition: 1s;
+        -ms-transition: 1s;
+         -o-transition: 1s;
+            transition: 1s;
 }
 
 a, a:link, a:visited{
@@ -122,14 +127,6 @@ table{
 
 thead th{
 	padding: 10px;
-}
-
-tr, th, td{
-	-webkit-transition: 1s;
-       -moz-transition: 1s;
-        -ms-transition: 1s;
-         -o-transition: 1s;
-            transition: 1s;
 }
 
 tbody tr:nth-child(odd){
