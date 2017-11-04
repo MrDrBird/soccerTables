@@ -135,15 +135,19 @@ function setExtTableView(){
 	let teamRows = tableBodyDisp.children; // get all rows in table
 	let setBgColor = true;
 
-	for(let i=0; i<teamRows.length-1; i++){
+	for(let i = 0; i < teamRows.length; i++){
 
-		let team 		= teamRows[i].children; // current row
-		let rival 		= teamRows[i+1].children; // next row
-		let teamPoints  = parseInt(team[team.length-1].innerHTML); // team point val
-		let rivalPoints = parseInt(rival[rival.length-1].innerHTML); // next row point val
-		let dif 		= teamPoints - rivalPoints; // point differnce between teams
-		setRowPadding(teamRows[i], dif); // set padding based on point difference
-
+		let last = i === teamRows.length-1;
+		let dif = 0;
+		console.log(last)
+		if(!last){ //skip rival and dif if last row
+			let team 		= teamRows[i].children; // current row
+			let rival 		= teamRows[i+1].children; // next row
+			let teamPoints  = parseInt(team[team.length-1].innerHTML); // team point val
+			let rivalPoints = parseInt(rival[rival.length-1].innerHTML); // next row point val
+			dif    		    = teamPoints - rivalPoints; // point differnce between teams
+			setRowPadding(teamRows[i], dif); // set padding based on point difference
+		}
 		// SET COLOR BACKGROUND
 		let hasBgColor = teamRows[i].className === 'bgColor'; // check if bg is already applied
 
@@ -155,8 +159,11 @@ function setExtTableView(){
 			teamRows[i].style.background = 'none';
 		}
 
-		dif === 0 ? true : setBgColor = !setBgColor; // keep same background if same point value
+		if(!last){
+			dif === 0 ? true : setBgColor = !setBgColor; // keep same background if same point value
+		}
 	}
+
 	for(row of bgColorRows){
 		row.style.backgroundColor = `rgba(${bgColor.join(',')}, .15)`;
 	}
@@ -165,7 +172,7 @@ function setExtTableView(){
 function setRegularTableView(){
 	let teamRows = tableBodyDisp.children; // get all rows in table
 	
-	for(let i=0; i<teamRows.length-1; i++){
+	for(let i=0; i<teamRows.length; i++){
 		setRowPadding(teamRows[i], 0);	// reset padding to 0
 
 		// SET PROPER BG COLOR
