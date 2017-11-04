@@ -80,7 +80,10 @@ nav .container>*{
 
 form{
 	flex-grow: 1;
-	padding-right: 16px;
+	padding-right: 24px;
+}
+form:last-child{
+	padding-right: 0;
 }
 
 label{
@@ -168,7 +171,7 @@ td:nth-child(3){
 }
 
 section{
-	padding: 0 10px;
+	padding: 4px 10px;
 	display: flex;
 	justify-content: space-between;
 }
