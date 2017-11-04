@@ -58,6 +58,10 @@ header{
 	padding-top: 25px;
 }
 
+header h1{
+	transition: none;
+}
+
 /*  --  NAV STYLES  --  */
 
 nav{
