@@ -59,6 +59,7 @@ header{
 }
 
 header h1{
+	transition: 0;
 	color: #ededed;
 }
 
@@ -114,16 +115,12 @@ input[type='checkbox']{
 	height: 20px;
 }
 
-.invis{
-	opacity: 0;
-}
-
 /*  --  MAIN SECTION STYLES  --  */
 
 main{
 	flex-grow: 1;
 	color:#000;
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 
 main .container{
@@ -263,10 +260,6 @@ footer .container{
 		padding: 2px 6px;
 	}
 
-	/*NEEDS TO BE REASSIGNED TO ONLY VERTICAL TABLE CELL CHILDREN*/
-	/*Vertical DETAIL CELL*/    
-	/*th:nth-child(1), th:nth-child(4), th:nth-child(8), th:nth-child(9),
-	td:nth-child(1), td:nth-child(4), td:nth-child(8), td:nth-child(9)*/
 	.detail{
 		display: none;
 	}
