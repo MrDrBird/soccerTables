@@ -21,28 +21,46 @@
 <body>
 	<header>
 		<div class='container'>
-			<h1><i class="fa fa-futbol-o" aria-hidden="true"></i> Soccer Tables</h1>
+			<a href="./index.html"><h1><i class="fa fa-futbol-o" aria-hidden="true"></i> Soccer Tables</h1></a>
 		</div>
 	</header>
 	<nav>
 		<div class='container'>
-			<form>
-				<label for="leagueSelect"><h2>League:</h2></label>
-				<select id='leagueSelect'>
-					<option value='445' selected="selected">Premier League</option>
-					<option value='450'>Ligue 1</option>
-					<option value='455'>La Liga</option>
-					<option value='452'>Bundesliga</option>
-					<option value='456'>Series A</option>
-				</select>
+			<form id='leagueRadios'>
+				<input type="radio" name="league" id='445' value="445" checked>
+				<label class='leagueCrest eng' for='445' title='Premier League'></label>
+				
+				<input type="radio" name="league" id='452' value="452">
+				<label class='leagueCrest ger' for='452' title='Bundesliga'></label>
+								
+				<input type="radio" name="league" id='455' value="455">
+				<label class='leagueCrest esp' for='455'  title='La Liga'></label>
+								
+				<input type="radio" name="league" id='450' value="450">
+				<label class='leagueCrest fra' for='450' title='Ligue 1'></label>
+								
+				<input type="radio" name="league" id='456' value="456">
+				<label class='leagueCrest ita' for='456'  title='Serie A'></label>	
 			</form>
-			<form>	
-				<label for="tableSelect"><h2>View:</h2></label>
-				<select id='tableSelect'>
-					<option value='tra' selected="selected">Traditional</option>
-					<option value='ext'>Extended</option>
-					<option value='alt'>Alternative</option>
-				</select>
+
+			<form id='tableRadios'>
+				<input type="radio" name="table" id='tra' value="tra" checked>
+				<label class='tableCrest' for='tra'>
+					<i class="fa fa-list" aria-hidden="true" title='Traditional'></i>
+					<span> Traditional</span>
+				</label>
+				
+				<input type="radio" name="table" id='ext' value="ext">
+				<label class='tableCrest' for='ext'>
+					<i class="fa fa-sort-amount-asc" aria-hidden="true" title='Extended'></i>
+					<span> Extended</span>
+				</label>
+								
+				<input type="radio" name="table" id='alt' value="alt">
+				<label class='tableCrest' for='alt'>
+					<i class="fa fa-random" aria-hidden="true" title='Alternative'></i>
+					<span> Alternative</span>
+				</label>	
 			</form>
 		</div>
 	</nav>
@@ -87,11 +105,12 @@
 						<td>#</td>
 					</tr>
 				</tbody>
+				<tfoot>
+				</tfoot>
 			</table>
 			<section>
-				<small>Last updated: <time class='lastUpdated'>00/00/00 00:00 GMT</time></small>
-
 				<small>Matchday: <span class='matchdayCurrent'>#</span> / <span class='matchdayTotal'>#</span></small>
+				<small>Last updated: <time class='lastUpdated'>00/00/00 00:00 GMT</time></small>			
 			</section>
 			
 		</div>
