@@ -43,10 +43,6 @@ body{
 	padding: 50px;
 }
 
-/*.bgColor{
-	background-color: rgba(0,0,255,.15);
-}*/
-
 /* -- HEADER STYLES -- */
 
 header{
@@ -58,6 +54,7 @@ header{
 header h1{
 	transition: 0;
 	color: #ededed;
+	display: inline-block;
 }
 
 header a{
@@ -86,6 +83,10 @@ nav .container>*{
 input[type='radio']{ /* HIDE RADIO */
   visibility: hidden; /* Makes input not-clickable */
   position: absolute; /* Remove input from document flow */
+}
+
+label{
+	cursor: pointer;
 }
 
 #leagueRadios{
@@ -286,3 +287,18 @@ footer .container{
 
 }
 
+.rotateBall{
+	animation: rotateBall 3s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1s infinite;
+}
+
+@keyframes rotateBall{
+	0%{
+		transform: rotate(0deg);
+	}
+	50%{
+		transform: rotate(360deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+}
