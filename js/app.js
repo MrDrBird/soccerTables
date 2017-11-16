@@ -1,7 +1,7 @@
 // SET AXIOS DEFAULTS
 axios.defaults.baseURL 	= 'https://api.football-data.org/v1/competitions/';
 axios.defaults.headers.common['X-Auth-Token'] = '56adb608c168459ab3c345b23641cd99';
-
+axios.defaults.timeout = 5000;
 // STORE RECENT SEARCH VALUE
 let searchData = {
 	leagueId: 'init',
@@ -51,6 +51,7 @@ let hardData = {
 
 // GET PAGE ELEMENTS
 let header  			= document.querySelector('header');
+let main 				= document.querySelector('main .container');
 let footer  			= document.querySelector('footer');
 let leagueRadios   		= document.querySelectorAll('#leagueRadios>input');
 let leagueCrest			= document.querySelectorAll('.leagueCrest');
@@ -115,7 +116,7 @@ function getLeagueData(lgID){ // search api for data of given league and set dis
 
 		setTableType();		
 	})
-	.catch((err) => console.log(err)); //TODO _____________----------------------
+	.catch(setErrorMessage);
 }
 
 function setTableType(){ // set table view type
@@ -176,10 +177,14 @@ function setTraditionalView(shouldReset){
 		setStandardHead(); // reset header
 		populateTable(); // reset table info
 	}
-	
+
+	let lgData = getHardLgsData(searchData.leagueId); //get info about current league
 	let teamRows = tableBodyDisp.children; // get all rows in table
 	for(let i=0; i<teamRows.length; i++){
 		setRowPadding(teamRows[i], 0);	// reset padding to 0
+
+		// SET QUALIFICATION BORDERS
+		setQualificationBorders(teamRows, i, lgData);
 
 		// SET PROPER BG COLOR
 		if( i%2 === 0 ){ // if even number row and is not tagged with bgColor
@@ -187,11 +192,11 @@ function setTraditionalView(shouldReset){
 		}
 		else{
 			teamRows[i].style.background = 'none';
-		}		
+		}
 	}
 
-	let lgData = getHardLgsData(searchData.leagueId); //get info about current league
-	setQualificationBorders(teamRows, lgData);
+	
+	// setQualificationBorders(teamRows, lgData);
 	searchData.tableType = 'tra';
 }
 
@@ -231,9 +236,7 @@ function setExtendedView(shouldReset){
 
 			dif === 0 ? true : setBgColor = !setBgColor; // keep same background if same point value
 		}
-		//SET LEAGUE QUALIFICATION BORDERS
-		let lgData = getHardLgsData(searchData.leagueId);
-		setQualificationBorders(teamRows, lgData)
+		
 		searchData.tableType = 'ext';
 	}, delay*250);
 }
@@ -317,10 +320,16 @@ function setAlternativeView(data, matchday){
 	searchData.tableType = 'alt';
 }
 
-function setQualificationBorders(table, leagueData){
-	table[leagueData.CL-1].style.borderBottom = `3px solid rgb(${hardData.colors.green.join(',')})`;
-	table[leagueData.EL-1].style.borderBottom = `3px solid rgb(${hardData.colors.yellow.join(',')})`;
-	table[table.length-4].style.borderBottom = `3px solid rgb(${hardData.colors.red.join(',')})`;
+function setQualificationBorders(rows, index, leagueData){
+	if(index === leagueData.CL-1){
+		rows[index].style.borderBottom = `3px solid rgb(${hardData.colors.green.join(',')})`;
+	}
+	else if(index === leagueData.EL-1){
+		rows[index].style.borderBottom = `3px solid rgb(${hardData.colors.yellow.join(',')})`;
+	}
+	else if(index === rows.length-4){
+		rows[index].style.borderBottom = `3px solid rgb(${hardData.colors.red.join(',')})`;
+	}	
 }
 
 function getBestPromotion(tableData, position, matchday){
@@ -438,6 +447,10 @@ function createTableRow(data, index){ // add row of given data to table at given
 	newRow.children[2].setAttribute('class', 'nameCell'); // tag name cell
 	[0,3,7,8].forEach((v) => newRow.children[v].setAttribute('class', 'detail'));
 
+	if(!data){
+		crest.children[0].className += ' rotateBall';
+	}
+
 	// FADE IN TABLE ROW
 	newRow.style.opacity = 0; // set opacity to 0
 	tableBodyDisp.append(newRow); // add row to table
@@ -446,8 +459,42 @@ function createTableRow(data, index){ // add row of given data to table at given
 
 function setLoadingTable(){ // clear table and set loading row 
 	clearTableRows(tableBodyDisp); 
+	clearTableRows(tableFootDisp);
 	let newRow = tableBodyDisp.insertRow(0); // create new table row at team postion
  	createTableRow(false, newRow); // create loading row
+}
+
+function setErrorMessage(err){
+	clearTableRows(tableHeadDisp);
+	clearTableRows(tableBodyDisp);
+	clearTableRows(tableFootDisp);
+
+	let errHead = document.createElement('h2');
+	errHead.textContent = 'Something went wrong :('
+	let errMess = document.createElement('p');
+
+	if (err.response) {
+	  // The request was made and the server responded with a status code
+	  // that falls out of the range of 2xx
+		console.log(err.response.data);
+		console.log(err.response.status);
+		console.log(err.response.headers);
+		errMess.innerHTML ='NEEDS TO BE SET.';
+	  
+	} else if (err.request) {
+		// The request was made but no response was received (timeout set at 5 seconds)
+		errMess.innerHTML ='SERVER TIMEOUT.';
+		console.log(err.request);
+	} else {
+	  // Something happened in setting up the request that triggered an Error
+	  console.log('Error', err.message);
+	  errMess.innerHTML ='SPOOKY ERROR.';
+	}
+
+	console.log(err.config);
+	main.innerHTML='';
+	main.append(errHead, errMess);
+	
 }
 
 function createCrestContainer(img, name){ // create container for table cell img 
@@ -474,11 +521,9 @@ function createCrestContainer(img, name){ // create container for table cell img
 function createTableCell(cellContent, tableRow, isHeaderCell){ // quick create table cell with given content and add to given row
 	
 	let newCell; 
-	isHeaderCell ? newCell = document.createElement('th') 
-				 : newCell = document.createElement('td');
+	isHeaderCell ? newCell = document.createElement('th') : newCell = document.createElement('td');
 
-	typeof cellContent === Object ? newCell.textContent = cellContent 
-								  : newCell.append(cellContent);
+	typeof cellContent === Object ? newCell.textContent = cellContent : newCell.append(cellContent);
 
 	tableRow.append(newCell);	
 }
@@ -526,5 +571,5 @@ setLeague();
 
 
 // TODO STUFF
-// MAKE clearTableCells fade out cells instead of instant delete
+// Detail API ERROR messages
 // getBestPromotion and getWorstDemotion Do not account for BYE-WEEKS,POSTPONED, and INPLAY GAMES
