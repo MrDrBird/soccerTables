@@ -53,47 +53,47 @@ let hardData = {
 let header  			= document.querySelector('header');
 let main 				= document.querySelector('main .container');
 let footer  			= document.querySelector('footer');
-let leagueRadios   		= document.querySelectorAll('#leagueRadios>input');
-let leagueCrest			= document.querySelectorAll('.leagueCrest');
-let tableRadios			= document.querySelectorAll('#tableRadios>input');
-let tableCrest			= document.querySelectorAll('.tableCrest');
+
 let tableHeadDisp 		= document.querySelector('tHead');
 let tableBodyDisp 		= document.querySelector('tBody');
 let tableFootDisp 		= document.querySelector('tFoot');
-let matchdayCurrentDisp = document.querySelector('.matchdayCurrent');
-let matchdayTotalDisp   = document.querySelector('.matchdayTotal');
-let lastUpdatedDisp     = document.querySelector('.lastUpdated');
-let bgColorRows 		= document.getElementsByClassName('bgColor');
+
 let bgColor 			= [180,31,239];
 
 // SET EVENT LISTNERS
+let leagueRadios = document.querySelectorAll('input[name="league"]');
 for(radio of leagueRadios){ // league select buttons
 	radio.addEventListener("click", setLeague);
 }
 
+let tableRadios = document.querySelectorAll('input[name="table"]');
 for(table of tableRadios){ // table select buttons
 	table.addEventListener("click", setTableType);
 }
 
 // MAIN CONTROL FUNCTIONS
 
-function setLeague(){ // get selected league
-	leagueRadios.forEach((v,i) => { // check each league button
+function setLeague(e){ // get selected league
 
-		if(v.checked && v.value !== searchData.leagueId){ // if selected and not already displayed
-			searchData.leagueId = v.value; // save selected leageID
-			searchData.tableType = 'new'; // allow new table			
-			
-			setLeagueTheme(); // set page theme
-			leagueCrest[i].style.backgroundColor = `rgba(${bgColor.join(',')}, .25)`; // color selected league icon
+	let tgt = e.target ? e.target.value : e;
 
-			setLoadingTable(); // set loading table display
-			getLeagueData(v.value); // retreive data from api
-		}else{
-			leagueCrest[i].style.backgroundColor = 'transparent';
-		}
-	});
+	if(tgt !== searchData.leagueId){ // if league is not already selected
+
+		searchData.leagueId = tgt; // save selected leageID
+		searchData.tableType = 'new'; // allow new table			
+		getLeagueData(tgt); // retreive data from api
+		setLeagueTheme(); // set page theme
+
+		let checked = document.querySelector('input[name="league"]:checked + label'); // get checked button label
+		checked.style.backgroundColor = `rgba(${bgColor.join(',')}, .25)`; // color selected league icon
+
+		let others = document.querySelectorAll('input[name="league"]:not(:checked) + label'); // get not checked button labels
+		for(let radio of others){
+			radio.style.backgroundColor = 'transparent';
+		}	
+	}
 }
+
 
 function getLeagueData(lgID){ // search api for data of given league and set display
 	axios.all([
@@ -105,10 +105,16 @@ function getLeagueData(lgID){ // search api for data of given league and set dis
 		let basicJSON = res[0];
 		let tableJSON = res[1];
 
-		let basic 						= basicJSON.data; // basic data from api	
+		let basic = basicJSON.data; // basic data from api	
+
+		let matchdayCurrentDisp = document.querySelector('.matchdayCurrent');
 		matchdayCurrentDisp.textContent = basic.currentMatchday; // Set current matchday display
-		matchdayTotalDisp.textContent   = basic.numberOfMatchdays; // Set total matchday display
-		lastUpdatedDisp.textContent 	= orgDate(basic.lastUpdated); // set updated date
+
+		let matchdayTotalDisp = document.querySelector('.matchdayTotal');
+		matchdayTotalDisp.textContent = basic.numberOfMatchdays; // Set total matchday display
+
+		let lastUpdatedDisp     = document.querySelector('.lastUpdated');
+		lastUpdatedDisp.textContent = orgDate(basic.lastUpdated); // set updated date
 
 		let standing 		= tableJSON.data.standing; // table data from api
 		searchData.basic 	= basic;
@@ -120,32 +126,33 @@ function getLeagueData(lgID){ // search api for data of given league and set dis
 }
 
 function setTableType(){ // set table view type
-	tableRadios.forEach((v,i,a) => {
-		if(searchData.tableType !== v.value){
-			let bool = !(searchData.tableType === 'tra' || searchData.tableType === 'ext');
-			if(v.checked){
-				switch (v.value){
-					case 'tra':
-						setTraditionalView(bool);
-						break;
-					case 'ext':
-						setExtendedView(bool);
-						break;
-					case 'alt':
-						setAlternativeView(searchData.standing, searchData.basic.currentMatchday);
-						break;
-					default:
-						setTraditionalView(true);
-						break;
-				}
+	let tgt = document.querySelector('input[name="table"]:checked').value;
 
-				tableCrest[i].style.color = `rgb(${bgColor.join(',')})`;
-
-			}else{
-				tableCrest[i].style.color = `#666`;
-			}
+	if(tgt !== searchData.tableType){
+		let bool = !(searchData.tableType === 'tra' || searchData.tableType === 'ext');
+		switch (tgt){
+			case 'tra':
+				setTraditionalView(bool);
+				break;
+			case 'ext':
+				setExtendedView(bool);
+				break;
+			case 'alt':
+				setAlternativeView(searchData.standing, searchData.basic.currentMatchday);
+				break;
+			default:
+				setTraditionalView(true);
+				break;
 		}
-	});
+
+		let checked = document.querySelector('input[name="table"]:checked + label'); // get checked button label
+		checked.style.color = `rgb(${bgColor.join(',')})`; // color selected league icon
+
+		let others = document.querySelectorAll('input[name="table"]:not(:checked) + label'); // get not checked button labels
+		for(let radio of others){
+			radio.style.color = 'rgb(175, 175, 175)';
+		}
+	}
 }
 
 // DISPLAY CONTROL FUNCTIONS
@@ -158,11 +165,11 @@ function setStandardHead(){
 	let cells = ['#', crest, 'Team Name','GP','W','D','L','GF','GA','GD','PTS']; // content for each cell
 
 	let newHead = document.createElement('tr'); // create new row
+	newHead.setAttribute('height', '40px');
 	cells.forEach((cell)=>createTableCell(cell, newHead, true)); // make cell from content and attach to head
 	newHead.children[2].setAttribute('class', 'nameCell'); // tag name cell
 	[0, 3, 7, 8].forEach((v)=>newHead.children[v].setAttribute('class', 'detail')) // tag detail cells
 	
-	setRowPadding(newHead, 10); // set bottom padding
 	tableHeadDisp.append(newHead); // attach to table head
 }
 
@@ -181,8 +188,8 @@ function setTraditionalView(shouldReset){
 	let lgData = getHardLgsData(searchData.leagueId); //get info about current league
 	let teamRows = tableBodyDisp.children; // get all rows in table
 	for(let i=0; i<teamRows.length; i++){
-		setRowPadding(teamRows[i], 0);	// reset padding to 0
-
+		teamRows[i].setAttribute('height', '30px');
+		
 		// SET QUALIFICATION BORDERS
 		setQualificationBorders(teamRows, i, lgData);
 
@@ -222,8 +229,8 @@ function setExtendedView(shouldReset){
 				let team  = teamRows[i].children; // current row
 				let rival = teamRows[i+1].children; // next row
 				dif       = parseInt(team[team.length-1].innerHTML) - parseInt(rival[rival.length-1].innerHTML);
-				let pad   = dif*33+2;	
-				setRowPadding(teamRows[i], pad); // set padding based on point difference
+				let pad   = dif*30+30;
+				teamRows[i].setAttribute('height', pad);
 			}
 
 			// SET COLOR BACKGROUND
@@ -528,12 +535,6 @@ function createTableCell(cellContent, tableRow, isHeaderCell){ // quick create t
 	tableRow.append(newCell);	
 }
 
-function setRowPadding(row, pnts){
-	for(cell of row.children){
-		cell.style.paddingBottom = `${pnts}px`;	
-	}
-}
-
 function orgDate(ugly){
 	let [dateStr, timeStr] = ugly.split(/[TZ]/); // input data looks like 'yyyy-mm-ddT00:00:00Z'
 
@@ -558,16 +559,13 @@ function setLeagueTheme(){
 	header.style.backgroundColor = `rgb(${bgColor.join(',')})`;
 	footer.style.backgroundColor = `rgb(${bgColor.join(',')})`;
 	
-	tableRadios.forEach((v,i,a)=>{
-		if(v.checked){
-			tableCrest[i].style.color = `rgb(${bgColor.join(',')})`;
-		}else{
-			tableCrest[i].style.color = '#666';
-		}
-	})
+	let checked = document.querySelector('input[name="table"]:checked + label');
+		checked.setAttribute('color', `rgb(${bgColor.join(',')})`);
+	let others = document.querySelectorAll('input[name="talbe"]:not(:checked) + label')
+	others.forEach((v)=>{v.style.color = '#666'; })
 }
 
-setLeague();
+setLeague('445');
 
 
 // TODO STUFF
